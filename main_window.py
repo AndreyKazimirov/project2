@@ -54,7 +54,7 @@ def main():
     screen = pygame.display.set_mode(WINDOW_SIZE)
 
     labyrinth = Labyrinth("simple_map.txt", [0, 2], 2)
-    hero = Hero((7, 6))
+    hero = Hero("hero.png", (7, 6))
     game = Game(labyrinth, hero)
 
     clock = pygame.time.Clock()
@@ -138,9 +138,9 @@ while run:
 
     class Hero:
 
-        def __init__(self, position):
+        def __init__(self,pic, position):
             self.x, self.y = position
-
+            self.image = pygame.image.load(f"images/{pic}")
         def get_position(self):
             return self.x, self.y
 
@@ -148,8 +148,8 @@ while run:
             self.x, self.y = position
 
         def render(self, screen):
-            center = self.x * TILE_SIZE + TILE_SIZE // 2, self.y * TILE_SIZE + TILE_SIZE // 2
-            pygame.draw.circle(screen, (255, 255, 255), center, TILE_SIZE // 2)
+            delta = (self.image.get_width() - TILE_SIZE) // 2
+            screen.blit(self.image, (self.x * TILE_SIZE - delta, self.y * TILE_SIZE - delta))
 
 
     class Game:
